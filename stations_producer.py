@@ -17,7 +17,7 @@ while True:
     for station in response:
         producer.send("velib-stations", json.dumps(station).encode())
     print("{} Produced {} station records".format(time.time(), len(response)))
-    time.sleep(1)
+    time.sleep(30)
 
 # result = json.loads(requests.get(url).text.decode())
 # compteur = 0
