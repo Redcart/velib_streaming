@@ -8,7 +8,8 @@ config = configparser.ConfigParser()
 config.read('config.conf')
 
 API_KEY = config['VARIABLES']['API_KEY']
-URL = f'https://api.jcdecaux.com/vls/v3/stations?contract=toulouse&apiKey={API_KEY}'
+CONTRACT_NAME = config['VARIABLES']['CONTRACT_NAME']
+URL = f"https://api.jcdecaux.com/vls/v3/stations?contract={CONTRACT_NAME}&apiKey={API_KEY}"
 
 producer = KafkaProducer(bootstrap_servers="localhost:9092")
 

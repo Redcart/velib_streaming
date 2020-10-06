@@ -1,16 +1,12 @@
 import json
 from kafka import KafkaConsumer
 import psycopg2
-import pandas as pd 
 from connect_sql import config_sql
 from datetime import datetime
 
 stations = {}
 consumer = KafkaConsumer("velib-stations", bootstrap_servers='localhost:9092', group_id="velib-monitor-stations")
-FEATURES = ["station_number", "station_adress", "contract", "available_bike_stands"]
-df = pd.DataFrame(columns=FEATURES) 
 parameters_sql = config_sql()
-print(parameters_sql)
 conn = psycopg2.connect(**parameters_sql)
 print("SQL DataBase connection sucessful !")
 cur = conn.cursor()
@@ -85,9 +81,6 @@ for message in consumer:
         
         now = datetime.now()
         current_time = now.strftime("%Y/%d/%m %H:%M:%S")
-
-        df = df.append(pd.DataFrame.from_dict(station_dico))
-        df.to_csv('stations_availabilities.csv', index=None)
 
         sql = """ INSERT INTO 
                   bikes_availability_temp (station_number, station_name, station_adress, contract, capacity, nb_available_bikes, nb_available_bike_stands, time) 
