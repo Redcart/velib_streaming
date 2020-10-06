@@ -3,6 +3,7 @@ from kafka import KafkaConsumer
 import psycopg2
 import pandas as pd 
 from connect_sql import config_sql
+from datetime import datetime
 
 stations = {}
 consumer = KafkaConsumer("velib-stations", bootstrap_servers='localhost:9092', group_id="velib-monitor-stations")
@@ -16,23 +17,33 @@ cur = conn.cursor()
 
 commands = [
 """
-DROP TABLE IF EXISTS bikes_availabilty 
+DROP TABLE IF EXISTS bikes_availability 
 """,
 """
-DROP TABLE IF EXISTS bikes_availabilty_temp 
+DROP TABLE IF EXISTS bikes_availability_temp 
 """,
-""" CREATE TABLE bikes_availabilty (
-                station_number SERIAL PRIMARY KEY,
+""" CREATE TABLE bikes_availability (
+                id SERIAL PRIMARY KEY,
+                station_number INT,
+                station_name VARCHAR(255) NOT NULL,
                 station_adress VARCHAR(255) NOT NULL,
                 contract VARCHAR(255) NOT NULL,
-                available_bike_stands INT NOT NULL
+                capacity INT NOT NULL,
+                nb_available_bikes INT NOT NULL,
+                nb_available_bike_stands INT NOT NULL,
+                time CHAR(19)
                 )
  """,
- """CREATE TABLE bikes_availabilty_temp (
-                station_number SERIAL PRIMARY KEY,
+ """CREATE TABLE bikes_availability_temp (
+                id SERIAL PRIMARY KEY,
+                station_number INT,
+                station_name VARCHAR(255) NOT NULL,
                 station_adress VARCHAR(255) NOT NULL,
                 contract VARCHAR(255) NOT NULL,
-                available_bike_stands INT NOT NULL
+                capacity INT NOT NULL,
+                nb_available_bikes INT NOT NULL,
+                nb_available_bike_stands INT NOT NULL,
+                time CHAR(19)
                 )
 """
 ]
@@ -72,14 +83,17 @@ for message in consumer:
             count_diff, station["address"], station["contractName"]
         ))
         
+        now = datetime.now()
+        current_time = now.strftime("%Y/%d/%m %H:%M:%S")
+
         df = df.append(pd.DataFrame.from_dict(station_dico))
         df.to_csv('stations_availabilities.csv', index=None)
 
         sql = """ INSERT INTO 
-                  bikes_availabilty (station_adress, contract, available_bike_stands) 
-                  VALUES(%s, %s, %s)
+                  bikes_availability_temp (station_number, station_name, station_adress, contract, capacity, nb_available_bikes, nb_available_bike_stands, time) 
+                  VALUES(%s, %s, %s, %s, %s, %s, %s, %s)
               """
         print((station["address"], station["contractName"], ))
         cur = conn.cursor()
-        cur.execute(sql, (station["address"], station["contractName"], str(station['totalStands']['availabilities']['bikes'])))
+        cur.execute(sql, (station["number"], station["name"], station["address"],  station["contractName"], str(station["totalStands"]["capacity"]), str(station["totalStands"]["availabilities"]["bikes"]), str(station["totalStands"]["availabilities"]["stands"]), current_time))
         conn.commit()
