@@ -16,6 +16,6 @@ producer = KafkaProducer(bootstrap_servers="localhost:9092")
 while True:
     response = json.loads(requests.get(URL).text)
     for station in response:
-        producer.send("velib-stations", json.dumps(station).encode())
+        producer.send("velib-stations", json.dumps(station), key=str(station["number"]).encode())
     print("{} Produced {} station records".format(time.time(), len(response)))
     time.sleep(30)
