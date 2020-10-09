@@ -8,3 +8,7 @@ cd kafka_2.10-0.10.2.1/
 
 # Launch Kafka broker
 ./bin/kafka-server-start.sh ./config/server.properties
+
+# Launch python scripts
+nohup python script.py &
+disown

@@ -1,5 +1,6 @@
 import argparse
 import psycopg2
+
 from connect_sql import config_sql
 
 if __name__ == '__main__':

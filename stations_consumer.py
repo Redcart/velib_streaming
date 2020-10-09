@@ -1,10 +1,10 @@
-import json
-from kafka import KafkaConsumer
-import psycopg2
-from connect_sql import config_sql
 from datetime import datetime
 import argparse
+import json
+import psycopg2
+from kafka import KafkaConsumer
 
+from connect_sql import config_sql
 
 if __name__ == '__main__':
 
@@ -16,7 +16,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--mode', dest='mode', type=str, default='overwrite',
-                            help='output mode (overwrite or append). Set to overwrite by default.')
+                        help='output mode (overwrite or append). Set to overwrite by default.')
 
     args = parser.parse_args()
     MODE = args.mode
@@ -100,19 +100,14 @@ if __name__ == '__main__':
         count_diff = station['totalStands']['availabilities']['bikes'] - city_stations[station["number"]]
         if count_diff != 0:
             city_stations[station["number"]] = station['totalStands']['availabilities']['bikes']
-            print("{}{} {} ({})".format(
-                "+" if count_diff > 0 else "",
-                count_diff, station["address"], station["contractName"]
-            ))
-            
+  
             now = datetime.now()
             current_time = now.strftime("%Y/%d/%m %H:%M:%S")
 
             sql = """ INSERT INTO 
-                    bikes_availability_temp (station_number, station_name, station_adress, contract, capacity, nb_available_bikes, nb_available_bike_stands, time) 
-                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s)
-                """
-            print((station["address"], station["contractName"], ))
+                      bikes_availability_temp (station_number, station_name, station_adress, contract, capacity, nb_available_bikes, nb_available_bike_stands, time) 
+                      VALUES(%s, %s, %s, %s, %s, %s, %s, %s)
+                  """
             cur = conn.cursor()
             cur.execute(sql, (station["number"], station["name"], station["address"],  station["contractName"], str(station["totalStands"]["capacity"]), str(station["totalStands"]["availabilities"]["bikes"]), str(station["totalStands"]["availabilities"]["stands"]), current_time))
             conn.commit()

@@ -1,8 +1,8 @@
-from kafka import KafkaProducer
-import requests  
 import json
 import time
 import configparser
+from kafka import KafkaProducer
+import requests  
 
 config = configparser.ConfigParser()
 config.read('config.conf')
@@ -17,5 +17,5 @@ while True:
     response = json.loads(requests.get(URL).text)
     for station in response:
         producer.send("velib-stations", json.dumps(station).encode('utf-8'), key=str(station["number"]).encode('utf-8'))
-    print("{} Produced {} station records".format(time.time(), len(response)))
+
     time.sleep(30)

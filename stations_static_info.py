@@ -1,10 +1,11 @@
-from kafka import KafkaProducer
-import requests  
 import json
 from datetime import datetime
 import configparser
 import argparse
+import requests  
 import psycopg2
+from kafka import KafkaProducer
+
 from connect_sql import config_sql
 
 if __name__ == '__main__':
@@ -97,9 +98,9 @@ if __name__ == '__main__':
         current_time = now.strftime("%Y/%d/%m %H:%M:%S")
 
         sql = """ INSERT INTO 
-                stations_info_temp (station_number, station_name, station_adress, contract, latitude, longitude, banking, status, connected, time) 
-                VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """
+                  stations_info_temp (station_number, station_name, station_adress, contract, latitude, longitude, banking, status, connected, time) 
+                  VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+              """
         print((station["address"], station["contractName"], ))
         cur = conn.cursor()
         cur.execute(sql, (station["number"], station["name"], station["address"], station["contractName"], station["position"]["latitude"], station["position"]["longitude"], station["banking"], station["status"], station["connected"], current_time))
