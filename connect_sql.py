@@ -1,7 +1,7 @@
 from configparser import ConfigParser
 
 
-def config_sql(filename='database.ini', section='postgresql'):
+def config_sql(filename='/home/redcart/Data_Science/velib_streaming/database.ini', section='postgresql'):
     # create a parser
     parser = ConfigParser()
     # read config file
