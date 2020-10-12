@@ -101,7 +101,6 @@ if __name__ == '__main__':
                   stations_info_temp (station_number, station_name, station_adress, contract, latitude, longitude, banking, status, connected, time) 
                   VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
               """
-        print((station["address"], station["contractName"], ))
         cur = conn.cursor()
         cur.execute(sql, (station["number"], station["name"], station["address"], station["contractName"], station["position"]["latitude"], station["position"]["longitude"], station["banking"], station["status"], station["connected"], current_time))
         conn.commit()
