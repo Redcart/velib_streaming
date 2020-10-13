@@ -18,6 +18,6 @@ crontab -l
 crontab -e
 
 # m h  dom mon dow   command
-0 6 * * * python stations_streaming_persistent.py
-30 6 * * * python stations_static_info.py --mode append
-0 7 * * MON python stations_static_info_persistent.py
+0 6 * * * cd $project_dir && ./velib_streaming/stations_streaming_persist.py
+30 6 * * * cd $project_dir && ./stations_static_info.py --mode append
+0 7 * * MON cd $project_dir && ./stations_static_info_persist.py
