@@ -21,3 +21,9 @@ crontab -e
 0 6 * * * cd $PROJECT_DIR && ./stations_streaming_persist.py
 30 6 * * * cd $PROJECT_DIR && ./stations_static_info.py --mode append
 0 7 * * MON cd $PROJECT_DIR && ./stations_static_info_persist.py
+
+# monitoring kafka broker
+cd kafka_2.12-2.6.0
+./bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic velib-stations
+./bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group velib-monitor-stations --describe
+./bin/kafka-topics.sh --list --zookeeper localhost:2181
