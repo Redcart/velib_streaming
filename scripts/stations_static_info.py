@@ -12,9 +12,6 @@ from connect_sql import config_sql
 
 if __name__ == '__main__':
 
-    config = configparser.ConfigParser()
-    config.read('/home/redcart/Data_Science/velib_streaming/config.conf')
-
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--mode', dest='mode', type=str, default='overwrite',

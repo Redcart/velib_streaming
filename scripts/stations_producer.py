@@ -5,7 +5,7 @@ from kafka import KafkaProducer
 import requests  
 
 config = configparser.ConfigParser()
-config.read('config.conf')
+config.read('../config/config.conf')
 
 API_KEY = config['VARIABLES']['API_KEY']
 CONTRACT_NAME = config['VARIABLES']['CONTRACT_NAME']
@@ -18,4 +18,4 @@ while True:
     for station in response:
         producer.send("velib-stations", json.dumps(station).encode('utf-8'), key=str(station["number"]).encode('utf-8'))
 
-    time.sleep(30)
+    time.sleep(1)
