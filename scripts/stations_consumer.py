@@ -102,7 +102,7 @@ if __name__ == '__main__':
             city_stations[station["number"]] = station['totalStands']['availabilities']['bikes']
   
             now = datetime.now()
-            current_time = now.strftime("%Y/%d/%m %H:%M:%S")
+            current_time = now.strftime("%Y/%m/%d %H:%M:%S")
 
             sql = """ INSERT INTO 
                       bikes_availability_temp (station_number, station_name, station_adress, contract, capacity, nb_available_bikes, nb_available_bike_stands, time) 

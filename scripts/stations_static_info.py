@@ -94,7 +94,7 @@ if __name__ == '__main__':
         print('-'*30)
 
         now = datetime.now()
-        current_time = now.strftime("%Y/%d/%m %H:%M:%S")
+        current_time = now.strftime("%Y/%m/%d %H:%M:%S")
 
         sql = """ INSERT INTO 
                   stations_info_temp (station_number, station_name, station_adress, contract, latitude, longitude, banking, status, connected, time) 
