@@ -29,4 +29,4 @@ cd kafka_2.12-2.6.0
 ./bin/kafka-topics.sh --list --zookeeper localhost:2181
 
 # Increase number of partitions
-./bin/kafka-topics.sh --zookeeper localhost:2181 --alter --topic velib-stations --partitions 10
+./bin/kafka-topics.sh --zookeeper localhost:2181 --alter --topic velib-stations --partitions 12
