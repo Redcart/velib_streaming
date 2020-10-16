@@ -21,6 +21,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
     MODE = args.mode
 
+    config = configparser.ConfigParser()
+    config.read('../config/config.conf')
+
     API_KEY = config['VARIABLES']['API_KEY']
     CONTRACT_NAME = config['VARIABLES']['CONTRACT_NAME']
     URL = f"https://api.jcdecaux.com/vls/v3/stations?contract={CONTRACT_NAME}&apiKey={API_KEY}"
