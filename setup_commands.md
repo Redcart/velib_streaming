@@ -30,3 +30,9 @@ cd kafka_2.12-2.6.0
 
 # Increase number of partitions
 ./bin/kafka-topics.sh --zookeeper localhost:2181 --alter --topic velib-stations --partitions 12
+
+# Know how much disk space Kafka uses for storing messages (after they are consumed)
+du -sh /tmp/kafka-logs/*
+
+# Change the retention time for messages (here 5 minutes)
+bin/kafka-configs.sh --bootstrap-server localhost:2181  --entity-type topics --entity-name velib-stations --alter --add-config retention.ms=300000
