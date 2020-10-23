@@ -36,3 +36,7 @@ du -sh /tmp/kafka-logs/*
 
 # Change the retention time for messages (here 5 minutes)
 bin/kafka-configs.sh --bootstrap-server localhost:2181  --entity-type topics --entity-name velib-stations --alter --add-config retention.ms=300000
+
+# Export SQL table to external csv file (without psql we do not have the rights to do this)
+psql bikes_db
+\copy (SELECT * FROM bikes_availability) to '/home/redcart/Data_Science/velib_streaming/data/bikes_availability.csv' with csv;
