@@ -1,21 +1,25 @@
+#!/home/redcart/Data_Science/velib_streaming/streaming/bin/python
+
 import json
 import time
 import configparser
 from kafka import KafkaProducer
 import requests  
 
-config = configparser.ConfigParser()
-config.read('../config/config.conf')
+if __name__ == '__main__':
 
-API_KEY = config['VARIABLES']['API_KEY']
-CONTRACT_NAME = config['VARIABLES']['CONTRACT_NAME']
-URL = f"https://api.jcdecaux.com/vls/v3/stations?contract={CONTRACT_NAME}&apiKey={API_KEY}"
+    config = configparser.ConfigParser()
+    config.read('../config/config.conf')
 
-producer = KafkaProducer(bootstrap_servers="localhost:9092")
+    API_KEY = config['VARIABLES']['API_KEY']
+    CONTRACT_NAME = config['VARIABLES']['CONTRACT_NAME']
+    URL = f"https://api.jcdecaux.com/vls/v3/stations?contract={CONTRACT_NAME}&apiKey={API_KEY}"
 
-while True:
-    response = json.loads(requests.get(URL).text)
-    for station in response:
-        producer.send("velib-stations", json.dumps(station).encode('utf-8'), key=str(station["number"]).encode('utf-8'))
+    producer = KafkaProducer(bootstrap_servers="localhost:9092")
 
-    time.sleep(1)
+    while True:
+        response = json.loads(requests.get(URL).text)
+        for station in response:
+            producer.send("velib-stations", json.dumps(station).encode('utf-8'), key=str(station["number"]).encode('utf-8'))
+
+        time.sleep(5)
