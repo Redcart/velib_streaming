@@ -3,4 +3,8 @@ This repository aims at gathering resource for building an ML project based upon
 
 # Global Architecture
 
-![image](architecture.png)
+![image](abikes_data_retrieval.png)
+
+![image](stations_data_retrieval.png)
+
+![image](updates_data_tables.png)
