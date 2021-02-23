@@ -3,7 +3,7 @@ import json
 import configparser
 
 config = configparser.ConfigParser()
-config.read('config.conf')
+config.read('../config/config.conf')
 
 API_KEY = config['VARIABLES']['API_KEY']
 # url = f'https://api.jcdecaux.com/vls/v3/contracts?apiKey={api_key}'
